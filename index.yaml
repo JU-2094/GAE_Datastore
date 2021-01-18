@@ -1,0 +1,58 @@
+indexes:
+- kind: Location
+  properties:
+  - name: category
+    direction: asc
+  - name: polarity
+    direction: desc
+
+- kind: Location
+  properties:
+  - name: name
+  - name: polarity
+    direction: desc
+
+- kind: Location
+  properties:
+  - name: location
+  - name: polarity
+    direction: desc
+
+- kind: Location
+  properties:
+  - name: subcategory
+  - name: polarity
+    direction: desc
+
+- kind: Location
+  properties:
+  - name: location
+  - name: category
+  - name: polarity
+    direction: desc
+
+- kind: Location
+  properties:
+  - name: location
+  - name: subcategory 
+  - name: polarity
+    direction: desc
+
+- kind: Location
+  properties:
+  - name: category
+  - name: subcategory 
+  - name: polarity
+    direction: desc
+
+- kind: Location
+  properties:
+  - name: location
+    direction: asc
+  - name: category
+    direction: asc
+  - name: subcategory
+    direction: asc
+  - name: polarity
+    direction: desc
+

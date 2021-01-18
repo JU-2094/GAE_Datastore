@@ -1,0 +1,243 @@
+  <!doctype html>
+  <html>
+  <head>
+      <title>Where to go</title>
+          <!--<script src="{{ url_for('static', filename='logging.js') }}"></script>-->
+      <!--<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body>
+  <div class="container-fluid" >
+
+<!-- me gustaria centrar esto y en general que no se vea todo pegado de los otros items que aun no se
+como ponerle padding o que no se vea tan simplon hah -->
+  <div class="row">
+     <h1>Where to go &#8986; </h1> 
+  </div>
+
+
+<!-- esta es la parte de los filtros , me falta un boton que diga search y no se vea tan mal. -->
+
+  <div class="row">
+   <div class="col-md-3 themed-grid-col">
+     <ul class="list-group mb-3">
+       <li class="list-group-item d-flex justify-content-between lh-condensed">
+         <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="ch-location">
+            <label class="custom-control-label" for="ch-location">location</label>
+         </div>
+       <input type="text" class="form-control" id="ff_location" placeholder="">
+       </li>
+
+       <li class="list-group-item d-flex justify-content-between lh-condensed">
+         <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="ch-category">
+               <label class="custom-control-label" for="ch-category">category</label>
+         </div>
+       <input type="text" class="form-control" id="ff_category" placeholder="">
+       </li>
+
+       <li class="list-group-item d-flex justify-content-between lh-condensed">
+         <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="ch-subcategory">
+               <label class="custom-control-label" for="ch-subcategory">subcategory</label>
+         </div>
+       <input type="text" class="form-control" id="ff_subcategory" placeholder="">
+       </li>
+
+       <li class="list-group-item d-flex justify-content-between lh-condensed">
+         <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="ch-name">
+            <label class="custom-control-label" for="ch-name">name</label>
+         </div>
+       <input type="text" class="form-control" id="ff_name" placeholder="">
+       </li>
+
+
+       <li class="list-group-item d-flex justify-content-between lh-condensed">
+         <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="ch-polarity">
+               <label class="custom-control-label" for="ch-polarity">polarity</label>
+         </div>
+       <input type="number" class="form-control" id="ff_min" placeholder="min" min="0" max="5">
+       <input type="number" class="form-control" id="ff_max" placeholder="max" min="0" max="5">
+       </li> 
+     </ul>
+   </div>
+
+<!-- esta es la tabla de lugares, me gustaria que estuviera escondido la parte del input. 
+que esten los rows y al seleccionarlos pueda editarlos. Como que aparezca la otra parte y darle save.
+
+mi otra duda es que cuando le de save lo guardare en la base de datos, pero tendria que recargar la pagina.
+sabes si hay otra forma de no recargar todo? sino asi esta bien -->
+
+  <div class="col-md-6 themed-grid-col">
+    <div class="table-wrapper">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Polarity</th>
+            <th scope="col">Location</th>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">Category</th>
+            <th scope="col">Subcategory</th>
+            <th scope="col">lat</th>
+            <th scope="col">lng</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2</td>
+            <td>Paris</td>
+            <td>Mjdk</td>
+            <td>Direccion</td>
+            <td>Restaurant</td>
+            <td></td>
+            <td>121.32</td>
+            <td>150.32</td>
+            <td>
+               <button class="btn btn-primary" type="submit">Edit</button>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="number" class="form-control" id="polarity" placeholder="2" required="">
+      </td>
+            <td><input type="text" class="form-control" id="location" placeholder="location" required="">
+      </td>
+            <td><input type="text" class="form-control" id="name" placeholder="name" required="">
+      </td>
+      </td>
+            <td><input type="text" class="form-control" id="address" placeholder="address" required="">
+      </td>
+            <td><input type="text" class="form-control" id="category" placeholder="category" required="">
+      </td>
+            <td><input type="text" class="form-control" id="subcategory" placeholder="subcategory" required="">
+      </td>
+            <td><input type="text" class="form-control" id="lat" placeholder="lat" required="">
+      </td>
+            <td><input type="text" class="form-control" id="lng" placeholder="lng" required="">
+            <td>
+               <button class="btn btn-primary" type="submit">Save</button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+   </div>
+
+<!-- en esta parte voy a mostrar los reviews del lugar que seleccionaron, me gustaria que dijera
+que lugar seleccione y que son reviews, me falta un campo que es para Rating del 1 al 5 
+
+por default voy a ordenarlos de menor a mayor, creo que poner una opcion de escoger tendria que reenviar
+el array desde el backend y cargar toda la pagina (no se si hay una forma solo de cargar la tabla(?)
+-->
+   <div class="col-md-3 themed-grid-col">
+     <ul class="list-group mb-3">
+      <li class="list-group-item d-flex justify-content-between lh-condensed">
+        <p>hola soy un review</p> 
+      </li> 
+      <li class="list-group-item d-flex justify-content-between lh-condensed">
+        <p>Another one</p> 
+      </li> 
+      <li class="list-group-item d-flex justify-content-between lh-condensed">
+        <p>Lol</p> 
+      </li> 
+     </ul>
+   </div>
+  </div>
+
+<!-- Josue: esta parte es para agregar lugares nuevos, los campos son
+	location, name, address, category, subcategory, polarity, lat, lng -->
+  <div class="row">
+  FORM of Locations
+<form class="needs-validation" novalidate="" action="/add_location" method="POST">
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <label for="form_location">Location</label>
+              <input type="text" class="form-control" name="form_location" placeholder="" value="" required>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="form_name">Name</label>
+              <input type="text" class="form-control" name="form_name"  required> 
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="form_name">Address</label>
+              <input type="text" class="form-control" name="form_address" required> 
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <label for="form_category">Category</label>
+              <input type="text" class="form-control" name="form_category" placeholder="" value="" required>
+            </div>
+            <div>
+              <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+          </div>
+
+  </div>
+
+
+<!-- Este form es para agregar los reviews. Mi idea es que selecciones el location en la tabla
+primero y luego ya aqui se llene un label con cual es el location que seleccionaste (solo el nombre)
+y puedas agregar reviews -->
+  <div class="row">
+  FORM of reviews
+<form class="needs-validation" novalidate="" action="/add_review" method="POST">
+          <div class="row">
+            <div class="col-md-9 mb-3">
+              <label for="firstName">Review</label>
+              <input type="text" class="form-control" name="review" placeholder="" value="" required>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="lastName">Rating (between 1 and 5)</label>
+              <input type="number" class="form-control" name="rating" min="1" max="5" required> 
+            </div>
+            <div>
+              <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+          </div>
+  </form>
+
+
+  </div>
+
+
+<!-- esto lo puse para saber que ya habia guardado algo en la base de datos, pero como lo redirecciono
+a root '/' se pierde :(  , si puedo poner un mensajito de que se guardo estaria padre sino da igual-->
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <p>{{ message }}</p>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+<!-- este es un ejemplo de como mando los datos desde Flask, basicamente cargo root '/'
+y le mando arrays... si sabes de una mejor forma me dices 
+  <table>
+   <thead>
+    <tr>
+     <td>Location</td>
+     <td>Address</td>
+     ... etc
+    </tr>
+   </thead>
+   <tbody>
+    <tr>
+      {% for item in item_list_loc %} 
+      <td>{{ item.location }}</td>
+      <td>{{ item.address }}</td>
+      <td>{{ item.name }}</td>
+      <td>
+      </td>
+      {% endfor %}
+    </tr>
+   </tbody>
+-->
+  </div>
+  </body>
+  </html>
