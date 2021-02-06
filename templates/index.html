@@ -1,79 +1,113 @@
-  <!doctype html>
-  <html>
-  <head>
-      <title>Where to go</title>
-          <!--<script src="{{ url_for('static', filename='logging.js') }}"></script>-->
-      <!--<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">-->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  </head>
-  <body>
-  <div class="container-fluid" >
+<!doctype html>
+<html>
 
-<!-- me gustaria centrar esto y en general que no se vea todo pegado de los otros items que aun no se
-como ponerle padding o que no se vea tan simplon hah -->
-  <div class="row">
-     <h1>Where to go &#8986; </h1> 
+<head>
+  <title>Spot2Go</title>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!--
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+  -->
+</head>
+
+<body class="mybody">
+  <!-- Este form es para agregar los reviews. Mi idea es que selecciones el location en la tabla
+primero y luego ya aqui se llene un label con cual es el location que seleccionaste (solo el nombre)
+y puedas agregar reviews -->
+  <div class="newReview is-clipped">
+    <div class="modal" id="addReview">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Add a Review</p>
+        </header>
+
+        <section class="modal-card-body">
+          <form class="needs-validation" novalidate="" action="/add_review" method="POST">
+            <div class="row">
+              <div class="col-md-9 mb-3">
+                <label for="firstName">Review</label>
+                <input id="form_text" type="text" class="input" name="review" placeholder="Write something" value=""
+                  required>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="lastName">Rating</label>
+                <input id="form_rating" type="number" class="input" name="rating" min="1" max="5"
+                  placeholder="(between 1 and 5)" required>
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <footer class="modal-card-foot">
+          <button onclick="saveReview(this)" class="button is-success">Submit Review</button>
+          <button onclick="closeModal()" class="button">Cancel</button>
+        </footer>
+      </div>
+    </div>
   </div>
+  <div class="wrapper">
+    <div class="header">
+      <h1>Spot2Go &#127758; </h1>
+    </div>
+
+    <div class="filters">
+      <div class="field is-grouped">
+        <label class="label" for="ch-location">Location</label>
+        <div class="control">
+          <input type="text" class="input is-info" id="loc_f" placeholder="Location">
+        </div>
+      </div>
+
+      <div class="field is-grouped">
+        <label class="label" for="ch-category">Category</label>
+        <div class="control">
+          <input type="text" class="input is-info" id="cat_f" placeholder="Category">
+        </div>
+      </div>
+
+      <div class="field is-grouped">
+        <label class="label" for="ch-subcategory">Subcategory</label>
+        <div class="control">
+          <input type="text" class="input is-info" id="subcat_f" placeholder="Subcategory">
+        </div>
+      </div>
 
 
-<!-- esta es la parte de los filtros , me falta un boton que diga search y no se vea tan mal. -->
-
-  <div class="row">
-   <div class="col-md-3 themed-grid-col">
-     <ul class="list-group mb-3">
-       <li class="list-group-item d-flex justify-content-between lh-condensed">
-         <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="ch-location">
-            <label class="custom-control-label" for="ch-location">location</label>
-         </div>
-       <input type="text" class="form-control" id="ff_location" placeholder="">
-       </li>
-
-       <li class="list-group-item d-flex justify-content-between lh-condensed">
-         <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="ch-category">
-               <label class="custom-control-label" for="ch-category">category</label>
-         </div>
-       <input type="text" class="form-control" id="ff_category" placeholder="">
-       </li>
-
-       <li class="list-group-item d-flex justify-content-between lh-condensed">
-         <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="ch-subcategory">
-               <label class="custom-control-label" for="ch-subcategory">subcategory</label>
-         </div>
-       <input type="text" class="form-control" id="ff_subcategory" placeholder="">
-       </li>
-
-       <li class="list-group-item d-flex justify-content-between lh-condensed">
-         <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="ch-name">
-            <label class="custom-control-label" for="ch-name">name</label>
-         </div>
-       <input type="text" class="form-control" id="ff_name" placeholder="">
-       </li>
+      <div class="field is-grouped">
+        <label class="label" for="ch-name">Name</label>
+        <div class=control>
+          <input type="text" class="input is-info" id="name_f" placeholder="Name">
+        </div>
+      </div>
 
 
-       <li class="list-group-item d-flex justify-content-between lh-condensed">
-         <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="ch-polarity">
-               <label class="custom-control-label" for="ch-polarity">polarity</label>
-         </div>
-       <input type="number" class="form-control" id="ff_min" placeholder="min" min="0" max="5">
-       <input type="number" class="form-control" id="ff_max" placeholder="max" min="0" max="5">
-       </li> 
-     </ul>
-   </div>
+      <div class="field is-grouped">
+        <label class="label" for="ch-polarity">Polarity</label>
+        <div class=control>
+          <div class=polarity>
+            <input type="number" class="input is-info" id="pol_min" placeholder="min" min="0" max="5">
+            <input type="number" class="input is-info" id="pol_max" placeholder="max" min="0" max="5">
+          </div>
+        </div>
+        <div class="submit-button">
+          <button class="button is-info" onclick="applyFilters()">Search</button>
+        </div>
+      </div>
 
-<!-- esta es la tabla de lugares, me gustaria que estuviera escondido la parte del input. 
-que esten los rows y al seleccionarlos pueda editarlos. Como que aparezca la otra parte y darle save.
+    </div>
+
+    <!-- esta es la tabla de lugares, me gustaria que estuviera escondido la parte del input. 
+que esten los rows y al seleccionarlos pueda editarlos. Como que aparezca la otra parte y darle save. ✅
 
 mi otra duda es que cuando le de save lo guardare en la base de datos, pero tendria que recargar la pagina.
-sabes si hay otra forma de no recargar todo? sino asi esta bien -->
+sabes si hay otra forma de no recargar todo? sino asi esta bien RESPONSE: no se recarga la pagina, 
+solo cree unas funciones en script.js para habilitiar/ desabilitar  ✅-->
 
-  <div class="col-md-6 themed-grid-col">
-    <div class="table-wrapper">
-      <table class="table">
+    <div class="results">
+      <table class="table is-striped is-hoverable is-narrow">
         <thead>
           <tr>
             <th scope="col">Polarity</th>
@@ -88,156 +122,171 @@ sabes si hay otra forma de no recargar todo? sino asi esta bien -->
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>2</td>
-            <td>Paris</td>
-            <td>Mjdk</td>
-            <td>Direccion</td>
-            <td>Restaurant</td>
-            <td></td>
-            <td>121.32</td>
-            <td>150.32</td>
+          {%for i in range(0,len)%}
+          <tr class="mode-read" onclick="showReview(this)" id="row-{{i}}">
             <td>
-               <button class="btn btn-primary" type="submit">Edit</button>
+              <div class="read" id="read-polarity-{{i}}">{{dataList[i].polarity}}</div>
+              <div class="edit"><input type="number" class="input is-info" id="polarity-{{i}}" placeholder="polarity"
+                  value="{{dataList[i].polarity}}" required="">
+              </div>
+            </td>
+            <td>
+              <div class="read" id="read-location-{{i}}">{{dataList[i].location}}</div>
+              <div class="edit"><input type="text" class="input is-info" id="location-{{i}}" placeholder="location"
+                  value="{{dataList[i].location}}" required=""></div>
+            </td>
+            <td>
+              <div class="read" id="read-name-{{i}}">{{dataList[i].name}}</div>
+              <div class="edit"><input type="text" class="input is-info" id="name-{{i}}" placeholder="name"
+                  value="{{dataList[i].name}}" required="">
+              </div>
+            </td>
+            <td>
+              <div class="read" id="read-address-{{i}}">{{dataList[i].address}}</div>
+              <div class="edit"><input type="text" class="input is-info" id="address-{{i}}" placeholder="address"
+                  value="{{dataList[i].address}}" required="">
+              </div>
+            </td>
+            <td>
+              <div class="read" id="read-category-{{i}}">{{dataList[i].category}}</div>
+              <div class="edit"><input type="text" class="input is-info" id="category-{{i}}" placeholder="category"
+                  value="{{dataList[i].category}}" required=""></div>
+            </td>
+            <td>
+              <div class="read" id="read-subcategory-{{i}}">{{dataList[i].subcategory}}</div>
+              <div class="edit"><input type="text" class="input is-info" id="subcategory-{{i}}"
+                  placeholder="subcategory" value="{{dataList[i].subcategory}}" required=""></div>
+            </td>
+            <td>
+              <div class="read" id="read-lat-{{i}}">{{dataList[i].gpoint.latitude}}</div>
+              <div class="edit"><input type="text" class="input is-info" id="lat-{{i}}" placeholder="lat"
+                  value="{{dataList[i].gpoint.latitude}}" required="">
+              </div>
+            </td>
+            <td>
+              <div class="read" id="read-lng-{{i}}">{{dataList[i].gpoint.longitude}}</div>
+              <div class="edit"><input type="text" class="input is-info" id="lng-{{i}}" placeholder="lng"
+                  value="{{dataList[i].gpoint.longitude}}" required="">
+              </div>
+            </td>
+            <td>
+              <div class="read"><button onclick="toggleMode(this, 'read', 'edit')" data-id="{{i}}"
+                  class="button is-info is-outlined" type="submit">Edit</button></div>
+              <div class="edit"><button onclick="toggleMode(this, 'edit', 'read')" data-id="{{i}}"
+                  class="button is-info" type="submit">Save</button></div>
             </td>
           </tr>
-          <tr>
-            <td><input type="number" class="form-control" id="polarity" placeholder="2" required="">
-      </td>
-            <td><input type="text" class="form-control" id="location" placeholder="location" required="">
-      </td>
-            <td><input type="text" class="form-control" id="name" placeholder="name" required="">
-      </td>
-      </td>
-            <td><input type="text" class="form-control" id="address" placeholder="address" required="">
-      </td>
-            <td><input type="text" class="form-control" id="category" placeholder="category" required="">
-      </td>
-            <td><input type="text" class="form-control" id="subcategory" placeholder="subcategory" required="">
-      </td>
-            <td><input type="text" class="form-control" id="lat" placeholder="lat" required="">
-      </td>
-            <td><input type="text" class="form-control" id="lng" placeholder="lng" required="">
-            <td>
-               <button class="btn btn-primary" type="submit">Save</button>
-            </td>
-          </tr>
-
+          {%endfor%}
         </tbody>
       </table>
+      <nav class="pagination is-rounded" role="navigation" aria-label="pagination">
+	<form action="/prev_page">
+        <button class="pagination-next" type="submit">Previous</button>
+	</form>
+	<form action="/next_page">
+        <button class="pagination-previous" type="submit">Next page</button>
+	</form>
+      </nav>
     </div>
-   </div>
 
-<!-- en esta parte voy a mostrar los reviews del lugar que seleccionaron, me gustaria que dijera
+    <!-- en esta parte voy a mostrar los reviews del lugar que seleccionaron, me gustaria que dijera
 que lugar seleccione y que son reviews, me falta un campo que es para Rating del 1 al 5 
 
 por default voy a ordenarlos de menor a mayor, creo que poner una opcion de escoger tendria que reenviar
 el array desde el backend y cargar toda la pagina (no se si hay una forma solo de cargar la tabla(?)
 -->
-   <div class="col-md-3 themed-grid-col">
-     <ul class="list-group mb-3">
-      <li class="list-group-item d-flex justify-content-between lh-condensed">
-        <p>hola soy un review</p> 
-      </li> 
-      <li class="list-group-item d-flex justify-content-between lh-condensed">
-        <p>Another one</p> 
-      </li> 
-      <li class="list-group-item d-flex justify-content-between lh-condensed">
-        <p>Lol</p> 
-      </li> 
-     </ul>
-   </div>
-  </div>
+    <!--; reviews[{text:"blah1", rating:1}, {text:"blah2", rating:3}, {text:"blah3", rating:4}]  ✅-->
 
-<!-- Josue: esta parte es para agregar lugares nuevos, los campos son
-	location, name, address, category, subcategory, polarity, lat, lng -->
-  <div class="row">
-  FORM of Locations
-<form class="needs-validation" novalidate="" action="/add_location" method="POST">
-          <div class="row">
-            <div class="col-md-3 mb-3">
-              <label for="form_location">Location</label>
-              <input type="text" class="form-control" name="form_location" placeholder="" value="" required>
+    <div class="reviews">
+      <h1 class="subtitle is-5">Reviews</h1>
+      <div>
+        {%for i in range(0,len)%}
+        <div class="card-wrapper row-{{i}} hidden">
+          <h2 class="title is-4 is-spaced">{{dataList[i].name}}</h2>
+          <div class="cards">
+            {%for item in dataList[i].review%}
+            <div class="card-content">
+              <div class="media">
+                <div class="media-content">
+                  <p class="subtitle is-4">Rating: {{item.rating}}</p>
+                </div>
+              </div>
+
+              <div class="content">
+                {{item.text}}
+                <br>
+              </div>
             </div>
-            <div class="col-md-3 mb-3">
-              <label for="form_name">Name</label>
-              <input type="text" class="form-control" name="form_name"  required> 
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="form_name">Address</label>
-              <input type="text" class="form-control" name="form_address" required> 
-            </div>
+            {%endfor%}
           </div>
-          <div class="row">
-            <div class="col-md-3 mb-3">
-              <label for="form_category">Category</label>
-              <input type="text" class="form-control" name="form_category" placeholder="" value="" required>
-            </div>
-            <div>
-              <button class="btn btn-primary" type="submit">Submit</button>
-            </div>
-          </div>
+          <button class="button is-info is-outlined" onclick="getRowAddReview(this, '{{i}}')"
+            class="card-footer-item">Write
+            a
+            Review</button>
+        </div>
+        {%endfor%}
+      </div>
+    </div>
 
+
+
+    <!-- Josue: esta parte es para agregar lugares nuevos, los campos son
+	location, name, address, category, subcategory, polarity, lat, lng  ✅-->
+    <div class="newPlace read" id="newPlace">
+      <div class="newPlace-button">
+        <button class="button is-info" onclick="showAddRow(this)">+</button>
+      </div>
+      <div class="newPlace-edit">
+        <table class="table is-striped is-hoverable is-narrow">
+          <thead>
+            <tr>
+              <th scope="col">Polarity</th>
+              <th scope="col">Location</th>
+              <th scope="col">Name</th>
+              <th scope="col">Address</th>
+              <th scope="col">Category</th>
+              <th scope="col">Subcategory</th>
+              <th scope="col">lat</th>
+              <th scope="col">lng</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <input type="text" class="input" id="new_polarity" placeholder="polarity" value="" required>
+              </td>
+              <td>
+                <input type="text" class="input" id="new_location" placeholder="location" value="" required>
+              </td>
+              <td>
+                <input type="text" class="input" id="new_name" placeholder="name" value="" required>
+              </td>
+              <td>
+                <input type="text" class="input" id="new_address" placeholder="address" value="" required>
+              </td>
+              <td>
+                <input type="text" class="input" id="new_category" placeholder="category" value="" required>
+              </td>
+              <td>
+                <input type="text" class="input" id="new_subcategory" placeholder="subcategory" value="" required>
+              </td>
+              <td>
+                <input type="text" class="input" id="new_lat" placeholder="lat" value="" required>
+              </td>
+              <td>
+                <input type="text" class="input" id="new_lng" placeholder="lng" value="" required>
+              </td>
+              <td>
+                <div class="submit-button">
+                  <button class="button is-info" type="submit" onclick="hideAddRow(this)">Submit</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+      </div>
+    </div>
   </div>
+</body>
 
-
-<!-- Este form es para agregar los reviews. Mi idea es que selecciones el location en la tabla
-primero y luego ya aqui se llene un label con cual es el location que seleccionaste (solo el nombre)
-y puedas agregar reviews -->
-  <div class="row">
-  FORM of reviews
-<form class="needs-validation" novalidate="" action="/add_review" method="POST">
-          <div class="row">
-            <div class="col-md-9 mb-3">
-              <label for="firstName">Review</label>
-              <input type="text" class="form-control" name="review" placeholder="" value="" required>
-            </div>
-            <div class="col-md-3 mb-3">
-              <label for="lastName">Rating (between 1 and 5)</label>
-              <input type="number" class="form-control" name="rating" min="1" max="5" required> 
-            </div>
-            <div>
-              <button class="btn btn-primary" type="submit">Submit</button>
-            </div>
-          </div>
-  </form>
-
-
-  </div>
-
-
-<!-- esto lo puse para saber que ya habia guardado algo en la base de datos, pero como lo redirecciono
-a root '/' se pierde :(  , si puedo poner un mensajito de que se guardo estaria padre sino da igual-->
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-  {% for message in messages %}
-  <p>{{ message }}</p>
-  {% endfor %}
-  {% endif %}
-  {% endwith %}
-
-<!-- este es un ejemplo de como mando los datos desde Flask, basicamente cargo root '/'
-y le mando arrays... si sabes de una mejor forma me dices 
-  <table>
-   <thead>
-    <tr>
-     <td>Location</td>
-     <td>Address</td>
-     ... etc
-    </tr>
-   </thead>
-   <tbody>
-    <tr>
-      {% for item in item_list_loc %} 
-      <td>{{ item.location }}</td>
-      <td>{{ item.address }}</td>
-      <td>{{ item.name }}</td>
-      <td>
-      </td>
-      {% endfor %}
-    </tr>
-   </tbody>
--->
-  </div>
-  </body>
-  </html>
+</html>

@@ -1,1 +1,158 @@
-@import "bootstrap.min.css";
+.mybody {
+  color: #4a4a4a;
+  font-size: 1em;
+  font-family: sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.header h1 {
+  font-size: 2rem;
+}
+
+.control input {
+  height: 1.8rem;
+}
+
+.polarity input {
+  width: 70px;
+}
+
+.pagination button {
+  background-color: #3298dc;
+  color: white;
+  cursor: pointer;
+}
+
+.label {
+  padding: 3px;
+}
+
+.filters .field {
+  display: flex;
+  flex-direction: column;
+}
+
+.submit-button {
+  margin-top: 8px;
+  align-self: center;
+  border-radius: 2px;
+}
+
+.plus-button {
+  margin-top: 8px;
+  align-self: center;
+  border-radius: 8px;
+}
+
+.filters {
+  grid-area: filters;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.results {
+  grid-area: results;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 5vh;
+  max-width: 100%;
+  flex-direction: column;
+}
+
+.results table {
+  table-layout: fixed;
+}
+
+.results table input {
+  width: 95px;
+}
+
+.mode-read td {
+  cursor: pointer;
+}
+
+.reviews {
+  padding-top: 1vh;
+  grid-area: reviews;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.reviews .subtitle {
+  align-self: flex-end;
+}
+
+.reviews .cards {
+  overflow-y: scroll;
+  max-height: 500px;
+}
+
+.reviews .hidden {
+  display: none;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#newPlace {
+  display: inline;
+  grid-area: newPlace;
+  background-color: #fff;
+  border-radius: 999px;
+}
+
+#newPlace.edit .newPlace-edit {
+  display: flex;
+}
+
+#newPlace.read .newPlace-edit {
+  display: none;
+}
+
+#newPlace.read .newPlace-button {
+  display: flex;
+}
+
+#newPlace.edit .newPlace-button {
+  display: none;
+}
+
+.header {
+  grid-area: header;
+}
+
+.mode-read .edit {
+  display: none;
+}
+
+.mode-read .read {
+  display: inline;
+}
+
+.mode-edit .edit {
+  display: inline;
+}
+
+.mode-edit .read {
+  display: none;
+}
+
+.wrapper {
+  display: grid;
+  column-gap: 1vw;
+  row-gap: 2vh;
+  padding: 0 2vw;
+  grid-template-columns: 4fr 1fr;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "header header"
+    "filters filters"
+    "results reviews"
+    "newPlace . ";
+}

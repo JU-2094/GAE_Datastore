@@ -1,3 +1,5 @@
+import google.cloud.logging
+import logging
 from google.cloud import ndb
 
 class User(ndb.Model):
@@ -7,27 +9,17 @@ class User(ndb.Model):
 class Review(ndb.Model):
     text = ndb.TextProperty()
     rating = ndb.IntegerProperty()
-    user = ndb.KeyProperty(indexed=False, required=False)
-
-    @classmethod
-    def get_review(cls):
-        return cls.query()
-
-    @classmethod
-    def filter_rank(cls, minv, maxv):
-        return cls.query().filter(AND(cls.rating >= minv,
-                                      cls.rating <= maxv))
 
 class Location(ndb.Model):
    location = ndb.StringProperty() 
    address = ndb.TextProperty()
    category = ndb.StringProperty()
    subcategory = ndb.StringProperty(required=False)
-   lat = ndb.FloatProperty(indexed=False)
-   lng = ndb.FloatProperty(indexed=False)
+   gpoint = ndb.GeoPtProperty(indexed=False)
    name = ndb.StringProperty()
    polarity = ndb.FloatProperty()
-   review = ndb.KeyProperty(indexed=False, repeated=True, required=False) 
+   review = ndb.StructuredProperty(Review, indexed=False, repeated=True, required=False)
+   # review = ndb.KeyProperty(indexed=False, repeated=True, required=False) 
 
    @classmethod
    def get_entities(cls, fetch=10):
@@ -35,18 +27,31 @@ class Location(ndb.Model):
 
    @classmethod
    def get_filter_page(cls, args_f, cursor=None, fetch=10):
+       cllog = google.cloud.logging.Client()
+       cllog.get_default_handler()
+       cllog.setup_logging()
+
        cur_filters = args_f
        prop_arr = [cls.location, cls.name, cls.category, 
                    cls.subcategory]
+       
+       logging.error("location fil="+args_f[0])
+       logging.error("name fil="+args_f[1])
+       logging.error("category fil="+args_f[2])
+       logging.error("polarity fil="+str(args_f[-2:][0]))
+       
+       logging.error("QUERY (0)") 
        query = cls.query().order(-cls.polarity)
+       logging.error("QUERY (1)") 
 
        # Can't use zip() because NoneType is not suscriptable
        for i in range (len(prop_arr)): 
            prop = prop_arr[i]
            val = args_f[i]
-           if val: 
+           if val:
+               logging.error(" in apply filter for val="+val+" with i="+str(i))
                query = query.filter(prop == val)
-       
+
        if args_f[-2:][0]:
            query = query.filter(cls.polarity >= args_f[-2:][0])
        if args_f[-2:][1]:
@@ -55,8 +60,15 @@ class Location(ndb.Model):
        return query.fetch_page(fetch, start_cursor=cursor)
 
    @classmethod
-   def get_cursor_page(cls, cursor, flg_filter, filters, fetch=10):
+   def get_cursor_page(cls, cursor=None, flg_filter=0, filters=None, fetch=10):
+       if cursor:
+           cursor = ndb.Cursor(urlsafe=cursor)
+
        if flg_filter == 0:
-           return cls.query().order(-cls.polarity).fetch_page(fetch, start_cursor=cursor)
-       return cls.get_filter_page(filters, cursor, fetch)
+           data, cursor, flg = cls.query().order(-cls.polarity).fetch_page(fetch, start_cursor=cursor)
+       elif flg_filter == 2: 
+           data, cursor, flg = cls.query().fetch_page(fetch, start_cursor=cursor)
+       else:
+           data, cursor, flg = cls.get_filter_page(filters, cursor, fetch)
+       return data, cursor.urlsafe(), flg
 

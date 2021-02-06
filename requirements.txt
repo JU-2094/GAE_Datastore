@@ -1,5 +1,6 @@
 Flask==1.1.2
 google-cloud-ndb
+google-cloud-logging
 googleapis_common_protos
 google-auth==1.24.0
 requests==2.25.1
