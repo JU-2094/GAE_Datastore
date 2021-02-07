@@ -197,6 +197,9 @@ def next_page():
     cur_idx = cur_idx +1
     
     cursor = cur_list[cur_idx]
+
+    if cursor == None:
+       return "End of pages", 202
   
     with client.context():    
         logging.error("next_page getting cursor")

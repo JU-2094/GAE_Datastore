@@ -13,9 +13,6 @@
 </head>
 
 <body class="mybody">
-  <!-- Este form es para agregar los reviews. Mi idea es que selecciones el location en la tabla
-primero y luego ya aqui se llene un label con cual es el location que seleccionaste (solo el nombre)
-y puedas agregar reviews -->
   <div class="newReview is-clipped">
     <div class="modal" id="addReview">
       <div class="modal-background"></div>
@@ -98,13 +95,6 @@ y puedas agregar reviews -->
       </div>
 
     </div>
-
-    <!-- esta es la tabla de lugares, me gustaria que estuviera escondido la parte del input. 
-que esten los rows y al seleccionarlos pueda editarlos. Como que aparezca la otra parte y darle save. ✅
-
-mi otra duda es que cuando le de save lo guardare en la base de datos, pero tendria que recargar la pagina.
-sabes si hay otra forma de no recargar todo? sino asi esta bien RESPONSE: no se recarga la pagina, 
-solo cree unas funciones en script.js para habilitiar/ desabilitar  ✅-->
 
     <div class="results">
       <table class="table is-striped is-hoverable is-narrow">
@@ -189,14 +179,6 @@ solo cree unas funciones en script.js para habilitiar/ desabilitar  ✅-->
       </nav>
     </div>
 
-    <!-- en esta parte voy a mostrar los reviews del lugar que seleccionaron, me gustaria que dijera
-que lugar seleccione y que son reviews, me falta un campo que es para Rating del 1 al 5 
-
-por default voy a ordenarlos de menor a mayor, creo que poner una opcion de escoger tendria que reenviar
-el array desde el backend y cargar toda la pagina (no se si hay una forma solo de cargar la tabla(?)
--->
-    <!--; reviews[{text:"blah1", rating:1}, {text:"blah2", rating:3}, {text:"blah3", rating:4}]  ✅-->
-
     <div class="reviews">
       <h1 class="subtitle is-5">Reviews</h1>
       <div>
@@ -229,9 +211,6 @@ el array desde el backend y cargar toda la pagina (no se si hay una forma solo d
     </div>
 
 
-
-    <!-- Josue: esta parte es para agregar lugares nuevos, los campos son
-	location, name, address, category, subcategory, polarity, lat, lng  ✅-->
     <div class="newPlace read" id="newPlace">
       <div class="newPlace-button">
         <button class="button is-info" onclick="showAddRow(this)">+</button>

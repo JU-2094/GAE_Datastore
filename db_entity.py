@@ -55,7 +55,7 @@ class Location(ndb.Model):
        if args_f[-2:][0]:
            query = query.filter(cls.polarity >= args_f[-2:][0])
        if args_f[-2:][1]:
-           query = query.filter(cls.polarity <= args_f[-2:][0])
+           query = query.filter(cls.polarity <= args_f[-2:][1])
 
        return query.fetch_page(fetch, start_cursor=cursor)
 

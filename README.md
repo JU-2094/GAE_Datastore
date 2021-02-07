@@ -1,2 +1,2 @@
-# GAE_Datastore
-Google App Engine with Firestore in datastore mode
+# GAE_demo
+Demo of Google App Engine with Firestore on datastore mode
