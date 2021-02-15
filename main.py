@@ -116,10 +116,6 @@ def apply_filter():
                 data, cursor, flg = Location.get_cursor_page(flg_filter=1, filters=filters)
                 logging.error("QUERY PASSED")
                 logging.error("LEN of data ="+str(len(data)))
-                if len(data) > 0:
-                    for i in range(4):
-                        logging.error("data["+str(i)+"].location="+data[i].location)
-                        logging.error("data["+str(i)+"].name="+data[i].name)
             except:
                 logging.error("FAILED TO DO QUERY")
                 data = []
